@@ -23,6 +23,5 @@ chown -R $USER $DIR
 chmod -R 755 $DIR
 
 cd $DIR
-echo "RUN"
 ./scripts/run.sh
 cd ./..
