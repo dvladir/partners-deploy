@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  api:
+    image: dvladir:partners-api
+    container_name: partners-api
+    working_dir: /usr/src/app
+    command: yarn start:prod
+    restart: unless-stopped
+    networks:
+      - partners-network
+  nginx:
+    image: nginx:stable-alpine
+    container_name: partners-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - partners-network
+
+networks:
+  partners-network:
+    driver: bridge
