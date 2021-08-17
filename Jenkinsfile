@@ -25,7 +25,7 @@ pipeline {
                 )]) {
                     sh 'echo ${passphrase} >> pass'
                     sh 'sshpass -Ppassphrase -f ./pass scp -o StrictHostKeyChecking=no -i ${keyfile} -P ${DEPLOY_PORT} ./partners-deploy.tar.gz ./prepare.sh ${userName}@${DEPLOY_HOST}:~'
-                    sh 'sshpass -Ppassphrase -f ./pass ssh -o StrictHostKeyChecking=no -i ${keyfile} -p ${DEPLOY_PORT} ${userName}@${DEPLOY_HOST} \\"chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh\\"'
+                    sh 'sshpass -Ppassphrase -f ./pass ssh -o StrictHostKeyChecking=no -i ${keyfile} -p ${DEPLOY_PORT} ${userName}@${DEPLOY_HOST} chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh'
                 }
             }
         }
