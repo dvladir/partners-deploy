@@ -9,8 +9,6 @@ services:
     restart: unless-stopped
     networks:
       - partners-network
-    depends_on:
-      - api
   api:
     image: dvladir:partners-api
     container_name: partners-api
@@ -28,9 +26,6 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - partners-network
-    depends_on:
-      - api
-      - front
 
 networks:
   partners-network:
