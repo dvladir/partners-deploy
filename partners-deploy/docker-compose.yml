@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  front:
+    image: dvladir:partners-ui
+    container_name: partners-ui
+    working_dir: /usr/src/app
+    command: serve -s . -l 4200
+    restart: unless-stopped
+    networks:
+      - partners-network
   api:
     image: dvladir:partners-api
     container_name: partners-api
