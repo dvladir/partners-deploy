@@ -23,5 +23,7 @@ chown -R $USER $DIR
 chmod -R 755 $DIR
 
 cd $DIR
+mkdir pgdata
+mkdir sql
 ./scripts/run.sh
 cd ./..
