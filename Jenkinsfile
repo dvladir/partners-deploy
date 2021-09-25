@@ -22,19 +22,13 @@ pipeline {
             environment {
                 DEPLOY_HOST = credentials('deploy-host')
                 DEPLOY_PORT = credentials('deploy-port')
+                DEPLOY_PASS = credentials('deploy-pass')
             }
             steps {
-                withCredentials([sshUserPrivateKey(
-                        credentialsId: 'deploy',
-                        keyFileVariable: 'keyfile',
-                        passphraseVariable: 'passphrase',
-                        usernameVariable: 'userName'
-                )]) {
-                    sh 'echo ${passphrase} >> pass'
-                    sh 'sshpass -Ppassphrase -f ./pass scp ./partners-deploy.tar.gz ./prepare.sh ${DEPLOY_HOST}:~'
-                    //sh 'sshpass -Ppasshphrase -f ./pass rsync -v ./partners-deploy.tar.gz ./prepare.sh ${DEPLOY_HOST}:~'
-                    sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh'
-                }
+                sh 'echo ${DEPLOY_PASS} >> pass'
+                sh 'sshpass -Ppassphrase -f ./pass rsync -v ./partners-deploy.tar.gz ./prepare.sh ${DEPLOY_HOST}:~'
+                sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh'
+                sh 'rm ./pass'
             }
         }
     }

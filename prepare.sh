@@ -23,5 +23,5 @@ chown -R $USER $DIR
 chmod -R 755 $DIR
 
 cd $DIR
-#./scripts/run.sh
+./scripts/run.sh
 cd ./..
