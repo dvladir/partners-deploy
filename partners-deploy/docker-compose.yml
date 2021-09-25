@@ -16,7 +16,7 @@ services:
       - partners-network
   flyway:
     image: flyway/flyway:7.14.0-alpine
-    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectionRetries=60 migrate
+    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 migrate
     volumes:
       - ./sql:/flyway/sql
       - ./flyway.config:/flyway/conf/flyway.config

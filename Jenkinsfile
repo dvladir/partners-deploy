@@ -21,7 +21,6 @@ pipeline {
         stage('Deploy') {
             environment {
                 DEPLOY_HOST = credentials('deploy-host')
-                DEPLOY_PORT = credentials('deploy-port')
                 DEPLOY_PASS = credentials('deploy-pass')
             }
             steps {
