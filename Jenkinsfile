@@ -32,7 +32,7 @@ pipeline {
                 )]) {
                     sh 'echo ${passphrase} >> pass'
                     //sh 'sshpass -Ppassphrase -f ./pass scp -i ${keyfile} -P ${DEPLOY_PORT} ./partners-deploy.tar.gz ./prepare.sh ${userName}@${DEPLOY_HOST}:~'
-                    sh 'sshpass -Ppasshphrase -f ./pass rsync -e \'ssh -i ${keyfile} -p ${DEPLOY_PORT}\' ./partners-deploy.tar.gz ./prepare.sh ${userName}@${DEPLOY_HOST}:~'
+                    sh 'sshpass -Ppasshphrase -f ./pass rsync -e \\"ssh -i ${keyfile} -p ${DEPLOY_PORT}\\" ./partners-deploy.tar.gz ./prepare.sh ${userName}@${DEPLOY_HOST}:~'
                     sh 'sshpass -Ppassphrase -f ./pass ssh -i ${keyfile} -p ${DEPLOY_PORT} ${userName}@${DEPLOY_HOST} chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh'
                 }
             }
