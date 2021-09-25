@@ -22,8 +22,6 @@ tar -xf $ARC
 chown -R $USER $DIR
 chmod -R 755 $DIR
 
-mv ./.env.production $DIR/.env.production
-
 cd $DIR
 #./scripts/run.sh
 cd ./..
