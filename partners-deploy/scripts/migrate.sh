@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "RUN MIGRATIONS"
-docker-compose restart flyway
+docker-compose run flyway
