@@ -1,29 +1,14 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:13-alpine3.14
-    restart: always
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data/pgdata
-    environment:
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    env_file:
-      - ./pg-main.env
-    networks:
-      - partners-network
   flyway:
     image: flyway/flyway:7.14.0-alpine
     command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 migrate
     volumes:
       - ./sql:/flyway/sql
       - ./flyway.config:/flyway/conf/flyway.config
-    depends_on:
-      - db
     networks:
-      - partners-network
+      - db-network
   front:
     image: dvladir:partners-ui
     container_name: partners-ui
@@ -41,6 +26,7 @@ services:
     volumes:
       - ./.env.production:/usr/src/app/.env.production
     networks:
+      - db-network
       - partners-network
   nginx:
     image: nginx:stable-alpine
@@ -53,5 +39,8 @@ services:
       - partners-network
 
 networks:
+  db-network:
+    external:
+      name: db-network
   partners-network:
     driver: bridge
