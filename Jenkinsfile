@@ -9,7 +9,6 @@ pipeline {
         stage('Prepare configs') {
             steps {
                 configFileProvider([configFile(fileId: 'deploy-env-prod', targetLocation: './partners-deploy/.env.production')]) {}
-                configFileProvider([configFile(fileId: 'deploy-env-pg', targetLocation: './partners-deploy/pg-main.env')]) {}
                 configFileProvider([configFile(fileId: 'deploy-env-flyway', targetLocation: './partners-deploy/flyway.config')]) {}
             }
         }
