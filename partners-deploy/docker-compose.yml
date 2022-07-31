@@ -21,10 +21,10 @@ services:
     image: dvladir:partners-api
     container_name: partners-api
     working_dir: /usr/src/app
-    command: yarn start:prod
+    command: java -jar app.jar
     restart: unless-stopped
     volumes:
-      - ./.env.production:/usr/src/app/.env.production
+      - ./application.properties:/usr/src/app/application.properties
     networks:
       - db-network
       - partners-network
