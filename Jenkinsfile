@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Prepare configs') {
             steps {
-                configFileProvider([configFile(fileId: 'deploy-env-prod', targetLocation: './partners-deploy/.env.production')]) {}
+                configFileProvider([configFile(fileId: 'deploy-env-app-prop', targetLocation: './partners-deploy/application.properties')]) {}
                 configFileProvider([configFile(fileId: 'deploy-env-flyway', targetLocation: './partners-deploy/flyway.config')]) {}
             }
         }
