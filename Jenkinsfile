@@ -12,8 +12,10 @@ pipeline {
 
     stages {
         stage('Show environment') {
-            sh "echo BRANCH $BRANCH"
-            sh "echo FOLDER $FOLDER"
+            steps {
+                sh "echo BRANCH $BRANCH"
+                sh "echo FOLDER $FOLDER"
+            }
         }
         stage('Prepare configs') {
             steps {
