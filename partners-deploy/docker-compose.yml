@@ -3,7 +3,6 @@ version: '3'
 services:
   front:
     image: docker.dvladir.work/partners/dv-1/partners-ui:latest
-    container_name: partners-ui
     working_dir: /usr/src/app
     command: serve -s . -l 4200
     restart: unless-stopped
@@ -11,7 +10,6 @@ services:
       replicas: 2
   api:
     image: docker.dvladir.work/partners/dv-1/partners-api:latest
-    container_name: partners-api
     working_dir: /usr/src/app
     command: java -jar app.jar
     restart: unless-stopped
@@ -21,7 +19,6 @@ services:
       replicas: 2
   nginx:
     image: docker.dvladir.work/library/nginx:stable-alpine
-    container_name: partners-nginx
     restart: unless-stopped
     ports:
       - "8081:80"
