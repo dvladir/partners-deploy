@@ -5,16 +5,19 @@ pipeline {
 
     agent any
 
+    environment {
+        BRANCH="${BRANCH_NAME.replaceAll('feat/', '').toLowerCase()}"
+        FOLDER="partners-${BRANCH}"
+    }
+
     stages {
+        stage('Show environment') {
+            sh "echo BRANCH $BRANCH"
+            sh "echo FOLDER $FOLDER"
+        }
         stage('Prepare configs') {
             steps {
-                configFileProvider([configFile(fileId: 'deploy-env-app-prop', targetLocation: './partners-deploy/application.properties')]) {}
-                configFileProvider([configFile(fileId: 'deploy-env-flyway', targetLocation: './partners-deploy/flyway.config')]) {}
-            }
-        }
-        stage('Archive') {
-            steps {
-                sh "tar -czf ./partners-deploy.tar.gz ./partners-deploy/"
+                configFileProvider([configFile(fileId: 'app_prop_${env.BRANCH}', targetLocation: './partners-deploy/application.properties')]) {}
             }
         }
         stage('Deploy') {
@@ -24,8 +27,8 @@ pipeline {
             }
             steps {
                 sh 'echo ${DEPLOY_PASS} >> pass'
-                sh 'sshpass -Ppassphrase -f ./pass rsync -v ./partners-deploy.tar.gz ./prepare.sh ${DEPLOY_HOST}:~'
-                sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} chmod +x \\~/prepare.sh \\&\\& \\~/prepare.sh'
+                sh 'sshpass -Ppassphrase -f ./pass rsync -rv ./partners-deploy ${DEPLOY_HOST}:~/${FOLDER}'
+                sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} cd \\~/${FOLDER} \\&\\& docker stack deploy --compose-file docker-compose.yml ${FOLDER}'
                 sh 'rm ./pass'
             }
         }

@@ -1,24 +1,18 @@
 version: '3'
 
 services:
-  flyway:
-    image: flyway/flyway:7.14.0-alpine
-    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 migrate
-    volumes:
-      - ./sql:/flyway/sql
-      - ./flyway.config:/flyway/conf/flyway.config
-    networks:
-      - db-network
   front:
-    image: dvladir:partners-ui
+    image: docker.dvladir.work/partners/dv-1/partners-ui:latest
     container_name: partners-ui
     working_dir: /usr/src/app
     command: serve -s . -l 4200
     restart: unless-stopped
     networks:
       - partners-network
+    deploy:
+      replicas: 2
   api:
-    image: dvladir:partners-api
+    image: docker.dvladir.work/partners/dv-1/partners-api:latest
     container_name: partners-api
     working_dir: /usr/src/app
     command: java -jar app.jar
@@ -26,10 +20,11 @@ services:
     volumes:
       - ./application.properties:/usr/src/app/application.properties
     networks:
-      - db-network
       - partners-network
+    deploy:
+      replicas: 2
   nginx:
-    image: nginx:stable-alpine
+    image: docker.dvladir.work/library/nginx:stable-alpine
     container_name: partners-nginx
     restart: unless-stopped
     ports:
@@ -38,10 +33,9 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - partners-network
+    deploy:
+      replicas: 2
 
 networks:
-  db-network:
-    external:
-      name: db-network
   partners-network:
     driver: bridge
