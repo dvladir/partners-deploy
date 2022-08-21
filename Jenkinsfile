@@ -29,7 +29,7 @@ pipeline {
             }
             steps {
                 sh 'echo ${DEPLOY_PASS} >> pass'
-                sh 'sshpass -Ppassphrase -f ./pass rsync -rv ./partners-deploy ${DEPLOY_HOST}:~/${FOLDER}'
+                sh 'sshpass -Ppassphrase -f ./pass rsync -rv ./partners-deploy/ ${DEPLOY_HOST}:~/${FOLDER}'
                 sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} cd \\~/${FOLDER} \\&\\& docker stack deploy --compose-file docker-compose.yml ${FOLDER}'
                 sh 'rm ./pass'
             }
