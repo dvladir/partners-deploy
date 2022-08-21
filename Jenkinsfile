@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Prepare configs') {
             steps {
-                configFileProvider([configFile(fileId: 'app_prop_${env.BRANCH}', targetLocation: './partners-deploy/application.properties')]) {}
+                configFileProvider([configFile(fileId: 'app_prop_${BRANCH}', targetLocation: './partners-deploy/application.properties')]) {}
             }
         }
         stage('Deploy') {
