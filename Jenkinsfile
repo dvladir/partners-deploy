@@ -20,7 +20,7 @@ pipeline {
         stage('Prepare configs') {
             steps {
                 configFileProvider([
-                    configFile(fileId: "app_prop_$BRANCH", targetLocation: './partners-deploy/application.properties')
+                    configFile(fileId: "app_prop_$BRANCH", targetLocation: './partners-deploy/application.properties'),
                     configFile(fileId: "flyway_conf_$BRANCH", targetLocation: './flyway/flyway.config')
                 ]) {}
             }
