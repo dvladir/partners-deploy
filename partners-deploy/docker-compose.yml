@@ -2,13 +2,13 @@ version: '3'
 
 services:
   front:
-    image: docker.dvladir.work/partners/dv-1/partners-ui:latest
+    image: docker.dvladir.work/partners/${BRANCH}/partners-ui:latest
     working_dir: /usr/src/app
     command: serve -s . -l 4200
     deploy:
       replicas: 1
   api:
-    image: docker.dvladir.work/partners/dv-1/partners-api:latest
+    image: docker.dvladir.work/partners/${BRANCH}/partners-api:latest
     working_dir: /usr/src/app
     command: java -jar app.jar
     volumes:

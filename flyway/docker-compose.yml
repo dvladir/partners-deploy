@@ -2,19 +2,19 @@ version: "3"
 
 services:
   migrate:
-    image: docker.dvladir.work/partners/dv-1/partners-api:latest
+    image: docker.dvladir.work/partners/${BRANCH}/partners-api:latest
     working_dir: /usr/src/app
     command: flyway -configFiles=/flyway/conf/flyway.config -locations=filesystem:/usr/src/app/sql -connectRetries=60 migrate
     volumes:
       - ./flyway.config:/flyway/conf/flyway.config
   validate:
-    image: docker.dvladir.work/partners/dv-1/partners-api:latest
+    image: docker.dvladir.work/partners/${BRANCH}/partners-api:latest
     working_dir: /usr/src/app
     command: flyway -configFiles=/flyway/conf/flyway.config -locations=filesystem:/usr/src/app/sql -connectRetries=60 validate
     volumes:
       - ./flyway.config:/flyway/conf/flyway.config
   info:
-    image: docker.dvladir.work/partners/dv-1/partners-api:latest
+    image: docker.dvladir.work/partners/${BRANCH}/partners-api:latest
     working_dir: /usr/src/app
     command: flyway -configFiles=/flyway/conf/flyway.config -locations=filesystem:/usr/src/app/sql -connectRetries=60 info
     volumes:
