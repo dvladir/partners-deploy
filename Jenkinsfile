@@ -19,7 +19,20 @@ pipeline {
         }
         stage('Prepare configs') {
             steps {
-                configFileProvider([configFile(fileId: "app_prop_$BRANCH", targetLocation: './partners-deploy/application.properties')]) {}
+                configFileProvider([
+                    configFile(fileId: "app_prop_$BRANCH", targetLocation: './partners-deploy/application.properties')
+                    configFile(fileId: "flyway_conf_$BRANCH", targetLocation: './flyway/flyway.config')
+                ]) {}
+            }
+        }
+        stage('Prepare DB') {
+            steps {
+                sh 'cd flyway'
+                sh 'docker-compose run migrate'
+                sh 'docker-compose run validate'
+                sh 'docker-compose run info'
+                sh 'docker container prune --force'
+                sh 'cd ..'
             }
         }
         stage('Deploy') {
