@@ -27,13 +27,12 @@ pipeline {
         }
         stage('Prepare DB') {
             steps {
-                sh 'cd ./flyway'
-                sh 'ls . -a'
-                sh 'docker-compose run migrate'
-                sh 'docker-compose run validate'
-                sh 'docker-compose run info'
-                sh 'docker container prune --force'
-                sh 'cd ..'
+                dir('./flyway') {
+                    sh 'docker-compose run migrate'
+                    sh 'docker-compose run validate'
+                    sh 'docker-compose run info'
+                    sh 'docker container prune --force'
+                }
             }
         }
         stage('Deploy') {
