@@ -42,10 +42,12 @@ pipeline {
                 DEPLOY_PASS = credentials('deploy-pass')
             }
             steps {
-                sh 'echo "BRANCH=${BRANCH}" >> ./partners-deploy/.env'
+                dir('./partners-deploy') {
+                    sh 'echo "BRANCH=${BRANCH}" >> .env'
+                }
                 sh 'echo ${DEPLOY_PASS} >> pass'
                 sh 'sshpass -Ppassphrase -f ./pass rsync -rv ./partners-deploy/ ${DEPLOY_HOST}:~/${FOLDER}'
-                sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} cd \\~/${FOLDER} \\&\\& docker stack deploy --compose-file docker-compose.yml ${FOLDER}'
+                sh 'sshpass -Ppassphrase -f ./pass ssh ${DEPLOY_HOST} cd \\~/${FOLDER} \\&\\& docker-compose config | docker stack deploy --compose-file - ${FOLDER}'
                 sh 'rm ./pass'
             }
         }
