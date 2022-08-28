@@ -40,7 +40,7 @@ pipeline {
             environment {
                 DEPLOY_HOST = credentials('deploy-host')
                 DEPLOY_PASS = credentials('deploy-pass')
-                DEPLOY_PORT = "8083"
+                DEPLOY_PORT = "8081"
             }
             steps {
                 sh 'echo ${DEPLOY_PASS} >> pass'
